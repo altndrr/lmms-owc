@@ -1,0 +1,13 @@
+task: "flowers102_describe"
+
+model_specific_kwargs:
+  default:
+    pre_prompt: ""
+    prompt: "Describe the content of the image."
+    post_prompt: ""
+
+generation_kwargs:
+  max_new_tokens: 64
+  do_sample: False
+
+include: assets/_default_template_yaml

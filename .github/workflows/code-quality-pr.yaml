@@ -1,0 +1,28 @@
+name: Code Quality PR
+
+on:
+  pull_request:
+    branches: [main, "release/*"]
+
+jobs:
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pre-commit
+        run: python3 -m pip install pre-commit
+
+      - name: Find modified files
+        id: file_changes
+        uses: tj-actions/changed-files@v44
+
+      - name: Run pre-commit on modified files
+        run: pre-commit run --color always --files ${{ steps.file_changes.outputs.all_changed_files }} --show-diff-on-failure

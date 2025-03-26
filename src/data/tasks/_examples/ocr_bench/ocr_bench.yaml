@@ -1,0 +1,26 @@
+task: "ocr_bench"
+
+dataset_path: echo840/OCRBench
+dataset_kwargs:
+  token: true
+doc_to_visual: !function _ocr_bench_utils.doc_to_visual
+doc_to_text: !function _ocr_bench_utils.doc_to_text
+doc_to_target: "answer"
+output_type: generate_until
+test_split: test
+
+generation_kwargs:
+  max_new_tokens: 128
+  temperature: 0
+  top_p: 1.0
+  num_beams: 1
+  do_sample: false
+process_results: !function _ocr_bench_utils.process_results
+
+metric_list:
+  - metric: ocr_bench_accuracy
+    aggregation: !function _ocr_bench_utils.aggregate_accuracy
+    higher_is_better: true
+
+metadata:
+  - version: 0.0

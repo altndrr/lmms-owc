@@ -1,0 +1,40 @@
+task: "muirbench"
+
+dataset_path: MUIRBENCH/MUIRBENCH
+dataset_kwargs:
+  token: True
+doc_to_visual: !function _muirbench_utils.doc_to_visual
+doc_to_text: !function _muirbench_utils.doc_to_text
+doc_to_target: !function _muirbench_utils.doc_to_target
+output_type: generate_until
+process_results: !function _muirbench_utils.process_results
+test_split: test
+
+model_specific_kwargs:
+  default:
+    pre_prompt: ""
+    post_prompt: "\nAnswer with the option's letter from the given choices directly."
+
+generation_kwargs:
+  max_new_tokens: 16
+  temperature: 0
+  do_sample: False
+
+filter_list:
+  - name: "flexible-extract"
+    filter:
+      - function: !function _muirbench_utils.CustomMultiChoiceRegexFilter
+        group_select: 0
+        ignore_case: true
+        ignore_punctuation: true
+        regex_pattern: "([A-Z])\\."
+
+metric_list:
+  - metric: muirbench_score_overall
+    aggregation: !function _muirbench_utils.aggregate_muirbench_score
+    higher_is_better: true
+    ignore_case: true
+    ignore_punctuation: true
+
+metadata:
+  - version: 0.0

@@ -1,0 +1,21 @@
+dataset_path: lmms-lab/MMMU
+task: "mmmu_val"
+test_split: validation
+output_type: generate_until
+doc_to_visual: !function _mmmu_utils.doc_to_visual
+doc_to_text: !function _mmmu_utils.doc_to_text
+doc_to_target: "answer"
+process_results: !function _mmmu_utils.process_results
+
+model_specific_kwargs:
+  default:
+    prompt_type: "format"
+    multiple_choice_prompt: "Answer with the option's letter from the given choices directly."
+    open_ended_prompt: "Answer the question using a single word or phrase."
+
+metric_list:
+  - metric: mmmu_acc
+    aggregation: !function _mmmu_utils.aggregate_results
+    higher_is_better: true
+
+include: assets/_default_template_yaml

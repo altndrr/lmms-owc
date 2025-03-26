@@ -1,0 +1,95 @@
+default_language_version:
+  python: python3
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      # list of supported hooks: https://pre-commit.com/hooks.html
+      - id: check-case-conflict # checks for files that would conflict in case-insensitive file systems
+      - id: check-docstring-first # checks a common error of defining a docstring after code
+      - id: check-executables-have-shebangs # ensures that (non-binary) executables have a shebang
+      - id: check-shebang-scripts-are-executable # ensures that (non-binary) files with a shebang are executable
+      - id: check-merge-conflict # checks for files that contain merge conflict strings
+      - id: check-symlinks # checks for symlinks which do not point to anything
+      - id: check-toml # checks toml files for parseable syntax
+      - id: check-yaml # checks yaml files for parseable syntax
+        args: [--unsafe]
+      - id: debug-statements # checks for debugger imports and py37+ `breakpoint()` calls in python source
+      - id: detect-private-key # detects the presence of private keys
+      - id: end-of-file-fixer # ensures that a file is either empty, or ends with one newline
+      - id: mixed-line-ending # replaces or checks mixed line ending
+      - id: name-tests-test # verifies that test files are named correctly
+      - id: trailing-whitespace # trims trailing whitespace
+
+  # python linter and formatter, also handles upgrading python code to latest version
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.1.15
+    hooks:
+      - id: ruff
+      - id: ruff-format
+
+  # python security linter
+  - repo: https://github.com/PyCQA/bandit
+    rev: "1.7.5"
+    hooks:
+      - id: bandit
+        args: ["-s", "B101,B301,B403,B404,B603"]
+
+  # yaml formatting
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v3.0.0-alpha.6
+    hooks:
+      - id: prettier
+        types: [yaml]
+
+  # word spelling linter
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.2.4
+    hooks:
+      - id: codespell
+        args:
+          - --skip=data/**,logs/**,*.bib,*.csv,*.js
+          - --ignore-words-list=ans,rouge
+
+  # python docstring coverage checking
+  - repo: https://github.com/econchick/interrogate
+    rev: 1.7.0 # or master if you're bold
+    hooks:
+      - id: interrogate
+        args: [-vv, --config=pyproject.toml, src/, --fail-under, "100"]
+        pass_filenames: false
+
+  # md formatting
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.21
+    hooks:
+      - id: mdformat
+        args: ["--number"]
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-tables
+          - mdformat_frontmatter
+          - mdformat-toc
+          - mdformat-black
+
+  # shell scripts linter
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.9.0.6
+    hooks:
+      - id: shellcheck
+
+  # python type checker
+  - repo: https://github.com/hoefling/pre-commit-pytype
+    rev: 2024.10.11
+    hooks:
+      - id: pytype
+        args:
+          [
+            "--disable",
+            "import-error,not-supported-yet",
+            "--exclude",
+            "tests/**/conftest.py",
+            "-n",
+            "auto",
+          ]

@@ -1,0 +1,13 @@
+task: "fgvc_aircraft_zero_shot_cot"
+
+model_specific_kwargs:
+  default:
+    pre_prompt: ""
+    prompt: "What type of object is in this photo? Think step by step."
+    post_prompt: ""
+
+generation_kwargs:
+  max_new_tokens: 256
+  do_sample: False
+
+include: assets/_default_template_yaml

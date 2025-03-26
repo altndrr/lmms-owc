@@ -1,0 +1,13 @@
+task: "food101_llava_cot"
+
+model_specific_kwargs:
+  default:
+    pre_prompt: "I have an image and a question that I want you to answer. I need you to strictly follow the format with four specific sections: SUMMARY, CAPTION, REASONING, and CONCLUSION. It is crucial that you adhere to this structure exactly as outlined and that the final answer in the CONCLUSION matches the standard correct answer precisely. To explain further: In SUMMARY, briefly explain what steps you'll take to solve the problem. In CAPTION, describe the contents of the image, specifically focusing on details relevant to the question. In REASONING, outline a step-by-step thought process you would use to solve the problem based on the image. In CONCLUSION, give the final answer in a direct format, and it must match the correct answer exactly. Here's how the format should look: <SUMMARY> [Summarize how you will approach the problem and explain the steps you will take to reach the answer.] </SUMMARY> <CAPTION> [Provide a detailed description of the image, particularly emphasizing the aspects related to the question.] </CAPTION> <REASONING> [Provide a chain-of-thought, logical explanation of the problem. This should outline step-by-step reasoning.] </REASONING> <CONCLUSION> [State the final answer in a clear and direct format. It must match the correct answer exactly.] </CONCLUSION> (Do not forget </CONCLUSION>!) Please apply this format meticulously to analyze the given image and answer the related question, ensuring that the answer matches the standard one perfectly.\nQuestion: "
+    prompts: "What type of object is in the image?"
+    post_prompt: ""
+
+generation_kwargs:
+  max_new_tokens: 256
+  do_sample: False
+
+include: assets/_default_template_yaml

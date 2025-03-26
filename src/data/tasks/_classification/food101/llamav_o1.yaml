@@ -1,0 +1,20 @@
+task: "food101_llamav_o1"
+
+doc_to_text: !function assets/_food101_utils.doc_to_text_multi_round
+output_type: generate_until_multi_round
+
+model_specific_kwargs:
+  default:
+    pre_prompt: ""
+    prompts:
+      - "What type of object in this photo? Generate a summary of the picture."
+      - "Generate a detailed caption for the image."
+      - "Generate a detailed reasoning to answer the question given the caption."
+      - "Generate the final answer based on reasoning steps."
+    post_prompt: ""
+
+generation_kwargs:
+  max_new_tokens: 256
+  do_sample: False
+
+include: assets/_default_template_yaml
