@@ -70,7 +70,7 @@ models = [
   "timm>=1.0.13",
   "torchvision>=0,<1",
   "transformers>=4,<5",
-  "xformers==0.0.29.post1",
+  "xformers==0.0.33.post1",
 ]
 
 [project.optional-dependencies]
